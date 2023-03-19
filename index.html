@@ -1,21 +1,71 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/favicon.png" />
+
+    <!-- CSS -->
     <link href="css/style.css" rel="stylesheet" type="text/css" />
-    <meta charset="utf-8">
-    <link rel="icon" type="image/png" href="assets/favicon.png">
-    <link href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap" rel="stylesheet">
-    <title>Fisheye</title>
+
+    <!-- Google font -->
+    <link
+      href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Title of page -->
+    <title>Fisheye - Page d'accueil</title>
   </head>
   <body>
-    <header>
-        <img src="assets/images/logo.png" class="logo" />
-        <h1>Nos photographes</h1>
+    <!-- Page loader -->
+    <!-- <div class="loader">
+      <div class="container">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <div class="container">
+        <div class="shadow"></div>
+        <div class="shadow"></div>
+        <div class="shadow"></div>
+      </div>
+    </div> -->
+
+    <!-- Header  -->
+    <header
+      role="banner"
+      tabindex="0"
+      aria-label="En-tête de la page"
+      class="header section-center"
+    >
+      <div class="inner-header">
+        <a href="index.html" target="blank" title="Lien vers la page d'acceuil">
+          <img
+            src="assets/images/logo.png"
+            class="logo"
+            alt="logo du site web"
+            tabindex="0"
+          />
+        </a>
+      </div>
+      <h1 tabindex="0" class="photographer-header-title">Nos photographes</h1>
     </header>
+
+    <!--  Contenu principal de la page d'accueil   -->
     <main id="main">
-        <div class="photographer_section"></div>
+      <div class="photographer_section"></div>
     </main>
-    <script src="scripts/factories/photographer.js"></script>
-    <script src="scripts/pages/index.js"></script>
+    <!-- <script src="js/factories/photographer.js"></script> -->
+
+    <!-- Templates   -->
+    <script src="./js/templates/photographerCard.js"></script>
+
+    <!-- Api -->
+    <script src="/js/api/photographersApi.js"></script>
+
+    <!-- Entry point -->
+    <script src="/js/pages/index.js"></script>
   </body>
 </html>
