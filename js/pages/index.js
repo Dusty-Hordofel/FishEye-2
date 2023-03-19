@@ -1,9 +1,9 @@
+// import { getElement } from "../../utils/utils";
+
 class IndexApp {
   //Use of the constructor function to create similar objects. It is a special method for creating and initializing an object created within a class.
   constructor() {
-    this.$photographersSection = document.querySelector(
-      ".photographer_section"
-    );
+    this.$photographersSection = getElement(".photographer_section");
 
     this.photographersApi = new photographersApi("/data/photographers.json");
   }

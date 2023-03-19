@@ -41,9 +41,9 @@ HBD .... comment .....
 
 ---
 
-## Section 2. Import Data
+## Section 2. Import Data & Integrating the homepage
 
-### 2. fetch data from JSON file
+### 2. fetch data from JSON file and Integrate the homepage
 
 - create a [photographersApi](./js/api/photographersApi.js) `class`
 
@@ -362,3 +362,249 @@ main {
   opacity: 0.3;
 }
 ```
+
+- test accessi Accessibility
+
+## Section 3. Manage Navigation
+
+### 3. Add utils , Models and Retrieve photographerId
+
+- create [getUrlParameter](./js/utils/getUrlParameter.js)
+
+```js
+const getUrlParameter = (parameterName) => {
+  // retrieve parameter from url
+  let parameters = new URLSearchParams(document.location.search);
+  // check if parameter exists
+  if (parameters.has(parameterName)) {
+    return parameters.get(parameterName);
+  }
+  // return error message if parameter doesn't exist
+  return `The ${parameterName} parameter  doesn't exist!`;
+};
+```
+
+- create [utils](./js/utils/utils.js)
+
+```js
+const allPhotographerInfo = "http://localhost:3000/photographers";
+
+const allMedias = "http://localhost:3000/media";
+
+const getElement = (selection) => {
+  const element = document.querySelector(selection);
+  if (element) return element;
+  throw new Error(
+    `Please check "${selection}" selector, no such element exist`
+  );
+};
+const getAllElement = (selection) => {
+  const element = document.querySelectorAll(selection);
+  if (element) return element;
+  throw new Error(
+    `Please check "${selection}" selector, no such element exist`
+  );
+};
+
+//format price
+const formatPrice = (price) => {
+  let formattedPrice = new Intl.NumberFormat("fr-FR", {
+    style: "currency",
+    currency: "EUR",
+  })
+    .format(price)
+    .replace(/,00/, "");
+  return formattedPrice;
+};
+
+//get item in the local storage
+const getStorageItem = (item) => {
+  let storageItem = localStorage.getItem(item);
+
+  if (storageItem && storageItem !== undefined) {
+    storageItem = JSON.parse(localStorage.getItem(item));
+  } else {
+    storageItem = [];
+  }
+  // storageItem
+  //   ? (storageItem = JSON.parse(localStorage.getItem(item)))
+  //   : (storageItem = []); //parse is used to transform string values to an object
+
+  return storageItem;
+};
+
+// set item in the local storage
+const setStorageItem = (name, item) => {
+  //name of my key and the item
+  localStorage.setItem(name, JSON.stringify(item)); //La méthode JSON.stringify() convertit une valeur JavaScript en chaîne JSON. we can only store data as a string in localStorage
+};
+```
+
+- add [Models](/js/models/Photographer.js)
+
+```js
+class Photographer {
+  constructor(photographers) {
+    this._id = photographers.id;
+    this._name = photographers.name;
+    this._portrait = photographers.portrait;
+    this._city = photographers.city;
+    this._country = photographers.country;
+    this._tagline = photographers.tagline;
+    this._price = photographers.price;
+    this._tags = photographers.tags;
+  }
+
+  get id() {
+    return this._id;
+  }
+
+  get name() {
+    return this._name;
+  }
+
+  get portrait() {
+    return this._portrait;
+  }
+
+  get city() {
+    return this._city;
+  }
+
+  get country() {
+    return this._country;
+  }
+
+  get tagline() {
+    return this._tagline;
+  }
+
+  get price() {
+    return this._price;
+  }
+
+  get tags() {
+    return this._tags;
+  }
+}
+```
+
+- add [Models](/js/models/Photo.js)
+
+```js
+class Photo {
+  constructor(photo, nomPhotographe) {
+    this._id = photo.id;
+    this._photographerId = photo.photographerId;
+    this._title = photo.title;
+    this._image = photo.image;
+    this._tags = photo.tags;
+    this._likes = photo.likes;
+    this._date = photo.date;
+    this._price = photo.price;
+    this._description = photo.description;
+    this._nomPhotographe = nomPhotographe;
+  }
+
+  get id() {
+    return this._id;
+  }
+
+  get photographerId() {
+    return this._photographerId;
+  }
+
+  get title() {
+    return this._title;
+  }
+
+  get image() {
+    return this._image;
+  }
+
+  get tags() {
+    return this._tags;
+  }
+
+  get likes() {
+    return this._likes;
+  }
+
+  get date() {
+    return this._date;
+  }
+
+  get price() {
+    return this._price;
+  }
+
+  get description() {
+    return this._description;
+  }
+
+  get nomPhotographe() {
+    return this._nomPhotographe;
+  }
+}
+```
+
+- add [Models](/js/models/Video.js)
+
+```js
+class Video {
+  constructor(photo, nomPhotographe) {
+    this._id = photo.id;
+    this._photographerId = photo.photographerId;
+    this._title = photo.title;
+    this._video = photo.video;
+    this._tags = photo.tags;
+    this._likes = photo.likes;
+    this._date = photo.date;
+    this._price = photo.price;
+    this._description = photo.description;
+    this._nomPhotographe = nomPhotographe;
+  }
+
+  get id() {
+    return this._id;
+  }
+
+  get photographerId() {
+    return this._photographerId;
+  }
+
+  get title() {
+    return this._title;
+  }
+
+  get video() {
+    return this._video;
+  }
+
+  get tags() {
+    return this._tags;
+  }
+
+  get likes() {
+    return this._likes;
+  }
+
+  get date() {
+    return this._date;
+  }
+
+  get price() {
+    return this._price;
+  }
+
+  get description() {
+    return this._description;
+  }
+
+  get nomPhotographe() {
+    return this._nomPhotographe;
+  }
+}
+```
+
+### 4. Manage the navigation between the home page and the photographer page
