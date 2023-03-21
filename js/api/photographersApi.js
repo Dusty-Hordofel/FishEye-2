@@ -26,7 +26,7 @@ class photographersApi extends Api {
     super(url);
   }
 
-  getPhotos() {
+  getMedias() {
     return this.get();
   }
 }
