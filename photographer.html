@@ -1,17 +1,136 @@
-<!DOCTYPE html>
+<!DOCTYPE html lang="fr">
 <html>
   <head>
+    <!-- link stylesheet file -->
     <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link href="css/photographer.css" rel="stylesheet" type="text/css" />
     <meta charset="utf-8" />
+
+    <!-- favicon -->
     <link rel="icon" type="image/png" href="assets/favicon.png" />
+
+    <!-- google font -->
     <link
       href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap"
       rel="stylesheet"
     />
+
+    <!-- fontawesome -->
+    <script
+      src="https://kit.fontawesome.com/85893a34ce.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- title -->
     <title>Fisheye - photographe</title>
   </head>
+
   <body>
-    <header>
+    <!-- Header  -->
+    <header
+      role="banner"
+      tabindex="0"
+      aria-label="En-tête de la page d'acceuil du photographe"
+      class="photographer-header-element"
+    >
+      <a href="index.html" target="blank" title="Lien vers la page d'acceuil">
+        <img
+          src="assets/images/logo.png"
+          class="logo"
+          alt="logo du site web"
+          tabindex="0"
+        />
+      </a>
+    </header>
+
+    <!--  Contenu principal de la page d'accueil  du photographe -->
+    <main
+      id="main"
+      role="main"
+      aria-label="Contenu principal de la page d'accueil du photographe"
+    >
+      <section class="photograph-header" tabindex="0"></section>
+
+      <!-- Filtering Dropdown menu -->
+      <div
+        class="photograph-categories"
+        aria-label="filtrer les photos par categories"
+        tabindex="0"
+      >
+        <div class="category-title">
+          <div class="filter-category" tabindex="0">Trier par</div>
+        </div>
+        <div class="photograph-work-filter">
+          <div class="dropdown">
+            <div
+              class="select"
+              role="listbox"
+              aria-expanded="false"
+              aria-level="Bouton pour ouvrir le menu déroulant"
+              role="button"
+              tabindex="0"
+            >
+              <div class="selected">Popularité</div>
+              <div class="caret"></div>
+            </div>
+            <div class="menu">
+              <li class="active" id="popularite" tabindex="0">Popularité</li>
+              <li id="date" tabindex="0">Date</li>
+              <li id="titre" tabindex="0">Titre</li>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- photographer medias -->
+      <section
+        class="photograph-work"
+        tabindex="0"
+        role="region"
+        aria-label="Publications faites par le photographe"
+      ></section>
+
+      <!-- fullScreen medias -->
+      <div class="full-screen-media hide">
+        <div class="full-screen-modal">
+          <div class="first-icon">
+            <i class="fa-solid fa-chevron-left slider-icon"></i>
+          </div>
+          <div class="medias-container">
+            <div class="medias">
+              <img
+                src=""
+                class="photograph-work-content-img-modal photograph-work-img hide"
+                alt="photograph work presentation"
+              />
+              <video
+                src=""
+                class="photograph-work-content-img-modal photograph-work-video hide"
+                autoplay
+                muted
+                controls
+              ></video>
+            </div>
+            <div class="photograph-image-title">
+              <h2 class="title"></h2>
+            </div>
+          </div>
+          <div class="second-icons">
+            <div class="icons-container">
+              <div class="right-chevron">
+                <i class="fa-solid fa-chevron-right slider-icon"></i>
+              </div>
+              <button type="button" class="close-button">
+                <i class="fa-solid fa-xmark media-close-icon slider-icon"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- END MAIN  -->
+
+    <!-- <header>
       <img src="assets/images/logo.png" class="logo" />
     </header>
     <main id="main">
@@ -35,22 +154,22 @@
           <button class="contact_button">Envoyer</button>
         </form>
       </div>
-    </div>
+    </div> -->
     <!-- contactForm -->
     <script src="/utils/contactForm.js"></script>
 
     <!-- Factories -->
-    <!-- <script src="/js/factories/PhotographersFactory.js"></script> -->
+    <script src="/js/factories/PhotographerProfileFactory.js"></script>
     <!-- <script src="/js/factories/photographerMediasFactory.js"></script> -->
 
     <!-- Models -->
-    <!-- <script src="/js/models/Photographer.js"></script> -->
-    <!-- <script src="/js/models/Photo.js"></script>
-        <script src="/js/models/Video.js"></script> -->
-    <!-- <script src="/js/models/ExternalMovie.js"></script> -->
+    <script src="/js/models/Photographer.js"></script>
+    <script src="/js/models/Photo.js"></script>
+    <script src="/js/models/Video.js"></script>
 
     <!-- Templates   -->
-    <script src="/js/templates/PhotographeProfile.js"></script>
+    <script src="/js/templates/PhotographerProfile.js"></script>
+    <script src="/js/templates/PhotographerPosts.js"></script>
 
     <!-- Api -->
     <script src="/js/api/photographersApi.js"></script>

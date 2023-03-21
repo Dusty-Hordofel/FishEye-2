@@ -1,5 +1,3 @@
-// import { getElement } from "../../utils/utils";
-
 class IndexApp {
   //Use of the constructor function to create similar objects. It is a special method for creating and initializing an object created within a class.
   constructor() {
@@ -13,19 +11,12 @@ class IndexApp {
 
     //Use destructuring to retrieve utile data
     const { photographers } = photographersData;
-    // console.log(
-    //   "🚀 ~ file: index.js:17 ~ IndexApp ~ main ~ photographers:",
-    //   photographers
-    // );
+
     //Create an instance of PhotographersFactory to create an instance of Photographer
+    //transformer le tableau de données en tableau de class en utilisant le PhotographersFactory
     let Photographers = photographers.map(
       (photographer) => new PhotographersFactory(photographer)
     );
-
-    // console.log(
-    //   "🚀 ~ file: index.js:23 ~ IndexApp ~ main ~ Photographe:",
-    //   Photographers
-    // );
 
     //Create ann instance of PhotographerCard to display photographers
     let PhotographerCardTemplate = new PhotographerCard(

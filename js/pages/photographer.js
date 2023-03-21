@@ -2,6 +2,7 @@ class PhotographerApp {
   //Use of the constructor function to create similar objects. It is a special method for creating and initializing an object created within a class.
   constructor() {
     this.$photographerSection = getElement(".photograph-header");
+    this.$photographerWorkSection = getElement(".photograph-work");
 
     this.photographersApi = new photographersApi("/data/photographers.json");
   }
@@ -10,50 +11,52 @@ class PhotographerApp {
     const photographersData = await this.photographersApi.getMedias();
 
     //Use destructuring to retrieve utile data
-    const { photographers } = photographersData;
-
-    console.log(
-      "🚀 ~ file: photographer.js:30 ~ PhotographerApp ~ main ~ photographers:",
-      photographers
-    );
-    console.log(urlPhotographerId);
+    const { photographers, medias } = photographersData;
 
     //   use photographerId to display the right photographer
     const photographerDetails = photographers.filter(
       (photographer) => photographer.id == urlPhotographerId
     )[0];
 
-    //Create ann instance of createPhotographerProfil to display photographer
-    new PhotographerProfile(
-      photographerDetails,
+    //Create an instance of PhotographersFactory to create an instance of Photographer
+    //transformer le tableau de données en tableau de class en utilisant le PhotographersFactory
+    let Photographer = new PhotographerProfileFactory(photographerDetails);
+
+    //Create ann instance of PhotographerCard to display photographers
+    let PhotographerProfileTemplate = new PhotographerProfile(
+      Photographer,
       this.$photographerSection
-    ).createPhotographerProfile();
+    );
+
+    //display photographer profile
+    PhotographerProfileTemplate.createPhotographerProfile();
 
     //   use photographerId to display the right medias
+    const photographerMediasDetails = medias.filter(
+      (media) => media.photographerId == urlPhotographerId
+    );
 
-    // const photographerMediaDetails = informations.filter(
-    //   (p) => p.photographerId == id
-    // );
+    //Create ann instance of PhotographerPosts to display photographer posts
+    let PhotographerMediasTemplate = new PhotographerPosts(
+      photographerMediasDetails,
+      this.$photographerWorkSection,
+      photographerDetails
+    );
+
+    //display photographer medias
+    PhotographerMediasTemplate.createPhotographerPosts();
+
+    //filter photographer posts
   }
 }
 
 //Create an instance of IndexApp and call main method
 const photographerApp = new PhotographerApp();
-
 photographerApp.main();
 
-//Mettre le code JavaScript lié à la page photographer.html
-
-console.log("DUE");
-
-//
+//retrieve id from url
 let urlPhotographerId = Number(getUrlParameter("id"));
 console.log(
   "🚀 ~ file: photographer.js:41 ~ urlPhotographerId:",
   urlPhotographerId
 );
-
-// retrieve id from url
-let params = new URLSearchParams(document.location.search);
-let id = params.get("id");
-console.log("🚀 ~ file: photographer.js:28 ~ id:", id);

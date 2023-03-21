@@ -8,11 +8,8 @@ class PhotographerPosts {
 
   //Create the createCards function to create the cards of the photographers
   createPhotographerPosts() {
-    //retrieve photographer information
-    // const { name } = this.photographer;
-
     //autoplay muted controls
-    element.innerHTML = `
+    this.element.innerHTML = `
           <ul class= "photograph-work-content">
           ${this.medias
             .map((media, index) => {
