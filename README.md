@@ -41,9 +41,9 @@ HBD .... comment .....
 
 ---
 
-## Section 2. Import Data
+## Section 2. Import Data & Integrating the homepage
 
-### 2. fetch data from JSON file
+### 2. fetch data from JSON file and Integrate the homepage
 
 - create a [photographersApi](./js/api/photographersApi.js) `class`
 
@@ -362,3 +362,562 @@ main {
   opacity: 0.3;
 }
 ```
+
+- test accessi Accessibility
+
+## Section 3. Manage Navigation
+
+### 3. Add utils , Models and Retrieve photographerId
+
+- create [getUrlParameter](./js/utils/getUrlParameter.js)
+
+```js
+const getUrlParameter = (parameterName) => {
+  // retrieve parameter from url
+  let parameters = new URLSearchParams(document.location.search);
+  // check if parameter exists
+  if (parameters.has(parameterName)) {
+    return parameters.get(parameterName);
+  }
+  // return error message if parameter doesn't exist
+  return `The ${parameterName} parameter  doesn't exist!`;
+};
+```
+
+- create [utils](./js/utils/utils.js)
+
+```js
+const allPhotographerInfo = "http://localhost:3000/photographers";
+
+const allMedias = "http://localhost:3000/media";
+
+const getElement = (selection) => {
+  const element = document.querySelector(selection);
+  if (element) return element;
+  throw new Error(
+    `Please check "${selection}" selector, no such element exist`
+  );
+};
+const getAllElement = (selection) => {
+  const element = document.querySelectorAll(selection);
+  if (element) return element;
+  throw new Error(
+    `Please check "${selection}" selector, no such element exist`
+  );
+};
+
+//format price
+const formatPrice = (price) => {
+  let formattedPrice = new Intl.NumberFormat("fr-FR", {
+    style: "currency",
+    currency: "EUR",
+  })
+    .format(price)
+    .replace(/,00/, "");
+  return formattedPrice;
+};
+
+//get item in the local storage
+const getStorageItem = (item) => {
+  let storageItem = localStorage.getItem(item);
+
+  if (storageItem && storageItem !== undefined) {
+    storageItem = JSON.parse(localStorage.getItem(item));
+  } else {
+    storageItem = [];
+  }
+  // storageItem
+  //   ? (storageItem = JSON.parse(localStorage.getItem(item)))
+  //   : (storageItem = []); //parse is used to transform string values to an object
+
+  return storageItem;
+};
+
+// set item in the local storage
+const setStorageItem = (name, item) => {
+  //name of my key and the item
+  localStorage.setItem(name, JSON.stringify(item)); //La méthode JSON.stringify() convertit une valeur JavaScript en chaîne JSON. we can only store data as a string in localStorage
+};
+```
+
+- add [Models](/js/models/Photographer.js)
+
+```js
+class Photographer {
+  constructor(photographers) {
+    this._id = photographers.id;
+    this._name = photographers.name;
+    this._portrait = photographers.portrait;
+    this._city = photographers.city;
+    this._country = photographers.country;
+    this._tagline = photographers.tagline;
+    this._price = photographers.price;
+    this._tags = photographers.tags;
+  }
+
+  get id() {
+    return this._id;
+  }
+
+  get name() {
+    return this._name;
+  }
+
+  get portrait() {
+    return this._portrait;
+  }
+
+  get city() {
+    return this._city;
+  }
+
+  get country() {
+    return this._country;
+  }
+
+  get tagline() {
+    return this._tagline;
+  }
+
+  get price() {
+    return this._price;
+  }
+
+  get tags() {
+    return this._tags;
+  }
+}
+```
+
+- add [Models](/js/models/Photo.js)
+
+```js
+class Photo {
+  constructor(photo, nomPhotographe) {
+    this._id = photo.id;
+    this._photographerId = photo.photographerId;
+    this._title = photo.title;
+    this._image = photo.image;
+    this._tags = photo.tags;
+    this._likes = photo.likes;
+    this._date = photo.date;
+    this._price = photo.price;
+    this._description = photo.description;
+    this._nomPhotographe = nomPhotographe;
+  }
+
+  get id() {
+    return this._id;
+  }
+
+  get photographerId() {
+    return this._photographerId;
+  }
+
+  get title() {
+    return this._title;
+  }
+
+  get image() {
+    return this._image;
+  }
+
+  get tags() {
+    return this._tags;
+  }
+
+  get likes() {
+    return this._likes;
+  }
+
+  get date() {
+    return this._date;
+  }
+
+  get price() {
+    return this._price;
+  }
+
+  get description() {
+    return this._description;
+  }
+
+  get nomPhotographe() {
+    return this._nomPhotographe;
+  }
+}
+```
+
+- add [Models](/js/models/Video.js)
+
+```js
+class Video {
+  constructor(photo, nomPhotographe) {
+    this._id = photo.id;
+    this._photographerId = photo.photographerId;
+    this._title = photo.title;
+    this._video = photo.video;
+    this._tags = photo.tags;
+    this._likes = photo.likes;
+    this._date = photo.date;
+    this._price = photo.price;
+    this._description = photo.description;
+    this._nomPhotographe = nomPhotographe;
+  }
+
+  get id() {
+    return this._id;
+  }
+
+  get photographerId() {
+    return this._photographerId;
+  }
+
+  get title() {
+    return this._title;
+  }
+
+  get video() {
+    return this._video;
+  }
+
+  get tags() {
+    return this._tags;
+  }
+
+  get likes() {
+    return this._likes;
+  }
+
+  get date() {
+    return this._date;
+  }
+
+  get price() {
+    return this._price;
+  }
+
+  get description() {
+    return this._description;
+  }
+
+  get nomPhotographe() {
+    return this._nomPhotographe;
+  }
+}
+```
+
+### 4. PhotographersFactory
+
+- update [index](js/pages/index.js) by creating [PhotographersFactory](/js/factories/PhotographersFactory.js)
+
+```js
+class PhotographersFactory {
+  constructor(photographers) {
+    return new Photographer(photographers);
+  }
+}
+```
+
+### 5. Photographer Profile
+
+- create [PhotographerProfile](./js/templates/PhotographeProfil.js)
+
+```js
+class PhotographerProfile {
+  //Use of the constructor function to create similar objects. It is a special method for creating and initializing an object created within a class.
+  constructor(information, element) {
+    this.information = information;
+    this.element = element;
+  }
+
+  //Create the createCards function to create the cards of the photographers
+  createPhotographerProfile() {
+    const { city, country, name, portrait, tagline } = this.information;
+    console.log(
+      "🚀 ~ file: PhotographeProfil.js:11 ~ PhotographerProfil ~ createPhotographerProfil ~ city:",
+      city
+    );
+
+    this.element.innerHTML = `
+      <div class="photograph-description">
+      <h1 tabindex="0">${name}</h1>
+      <p class="location" aria-label="ville et pays de ${name}" tabindex="0">${city}, ${country}</p>
+      <p class="description" tabindex="0" aria-label="citation du photographe ${name}">${tagline}</p>
+    </div>
+    <button class="contact_button" onclick="displayModal()" tabindex="0"
+    aria-label="Bouton pour ouvrir la boîte de dialogue pour contacter le photographe ${name}">Contactez-moi</button>
+    <img src="assets/photographers/${portrait}" alt="photo de profil du photographe ${name}" tabindex="0"/>
+  
+    `;
+  }
+}
+```
+
+### 6. Display Photographer medias
+
+- create [PhotographerPosts](/js/templates/PhotographerPosts.js)
+
+```js
+class PhotographerPosts {
+  //Use of the constructor function to create similar objects. It is a special method for creating and initializing an object created within a class.
+  constructor(medias, element, photographer) {
+    this.medias = medias;
+    this.element = element;
+    this.photographer = photographer.name;
+  }
+
+  //Create the createCards function to create the cards of the photographers
+  createPhotographerPosts() {
+    //autoplay muted controls
+    this.element.innerHTML = `
+          <ul class= "photograph-work-content">
+          ${this.medias
+            .map((media, index) => {
+              const { likes, title, video, image, date, photographerId, id } =
+                media;
+              return ` 
+              <li class="photograph-work-container" tabindex="0" data-photographer-id="${photographerId}" data-post-id="${id}" data-date-of-publication="${date}" data-likes="${likes}" data-user-liked="false" data-title="${title}" >
+              <a href="#" title="${title}" aria-label="${
+                image ? "Image" : "Vidéo"
+              } nommée ${title}" role="link" tabindex="0">
+              <${image ? "img" : "video"} src="assets/images/${
+                this.photographer
+              }/${image ? image : video}"
+
+              ${
+                image
+                  ? `alt=${title} fait en ${new Date(date).getFullYear()}`
+                  : ""
+              }
+               ${video ? "muted" : ""}
+                class="photographer-medias" 
+               id=${
+                 image ? "photograph-content-img" : "photograph-content-video"
+               } key="${index}"  ${image ? "/" : ""}> ${image ? "" : "</video>"}
+               </a>
+              <div class="photograph-work-content-description">
+              <p tabindex="0">${title}</p>
+              <div class="photograph-work-content-description-likes" tabindex="0">
+              <p class="photographer-likes" >${likes}</p>
+              <button class="like-btn count-plus" key="${index}" title="Mettre un like au post '${title}'?" aria-pressed="false"
+              aria-label="Bouton pour liker la publication nommée '${title}'" ><i class="fa-solid fa-heart count-plus" ></i></button>
+              </div>
+              </div>
+              </li>`;
+            })
+            .join("")}
+                </ul>
+                `;
+  }
+}
+```
+
+- fill [Photographer](js/pages/photographer.js)
+
+```js
+class PhotographerApp {
+  //Use of the constructor function to create similar objects. It is a special method for creating and initializing an object created within a class.
+  constructor() {
+    this.$photographerSection = getElement(".photograph-header");
+    this.$photographerWorkSection = getElement(".photograph-work");
+
+    this.photographersApi = new photographersApi("/data/photographers.json");
+  }
+  async main() {
+    //Retieve data from api
+    const photographersData = await this.photographersApi.getMedias();
+
+    //Use destructuring to retrieve utile data
+    const { photographers, medias } = photographersData;
+
+    //   use photographerId to display the right photographer
+    const photographerDetails = photographers.filter(
+      (photographer) => photographer.id == urlPhotographerId
+    )[0];
+
+    //Create an instance of PhotographersFactory to create an instance of Photographer
+    //transformer le tableau de données en tableau de class en utilisant le PhotographersFactory
+    let Photographer = new PhotographerProfileFactory(photographerDetails);
+
+    //Create ann instance of PhotographerCard to display photographers
+    let PhotographerProfileTemplate = new PhotographerProfile(
+      Photographer,
+      this.$photographerSection
+    );
+
+    //display photographer profile
+    PhotographerProfileTemplate.createPhotographerProfile();
+
+    //   use photographerId to display the right medias
+    const photographerMediasDetails = medias.filter(
+      (media) => media.photographerId == urlPhotographerId
+    );
+
+    //Create ann instance of PhotographerPosts to display photographer posts
+    let PhotographerMediasTemplate = new PhotographerPosts(
+      photographerMediasDetails,
+      this.$photographerWorkSection,
+      photographerDetails
+    );
+
+    //display photographer medias
+    PhotographerMediasTemplate.createPhotographerPosts();
+
+    //filter photographer posts
+  }
+}
+
+//Create an instance of IndexApp and call main method
+const photographerApp = new PhotographerApp();
+photographerApp.main();
+
+//retrieve id from url
+let urlPhotographerId = Number(getUrlParameter("id"));
+console.log(
+  "🚀 ~ file: photographer.js:41 ~ urlPhotographerId:",
+  urlPhotographerId
+);
+```
+
+### 7. Handle Likes
+
+- create [photographerLikesAndPrice](/js/templates/photographerLikesAndPrice.js) template
+
+```js
+class photographerLikesAndPrice {
+  constructor(medias, photographer, allWorkSelector) {
+    this._medias = medias;
+    this._photographer = photographer;
+    this._allWorkSelector = allWorkSelector;
+  }
+  createPhotographerLikesAndPrice() {
+    //calcul photographer totalLikes
+    const totalLikes = this._medias.reduce(
+      (accumulator, currentItemValue) => accumulator + currentItemValue.likes,
+      0
+    );
+
+    //create rateAndPrice variable to store photographer totalLikes and price
+    const rateAndPrice = `
+        <div class="photographer-rate-and-price-container" tabindex="0">
+        <div class="photographer-rate-and-price-likes" tabindex="0">${totalLikes}<span><i class="fa-solid fa-heart"></i></span></div>
+        <div class="photographer-rate-and-price-prices" tabindex="0">${this._photographer.price}€ / jour</div>
+        </div>
+        `;
+
+    this._allWorkSelector.insertAdjacentHTML("beforeend", rateAndPrice);
+  }
+}
+```
+
+- handle Likes [handleLikes](js/pages/photographer.js)
+
+```js
+/*handle photographer likes*/
+const handleLikes = (
+  likesBtn,
+  numberOfLike,
+  totalOfLike,
+  photographerMedias
+) => {
+  likesBtn.forEach((like) => {
+    like.addEventListener("click", () => {
+      //retrieve the like index
+      const likeIndex = like.getAttribute("key");
+      console.log(
+        "🚀 ~ file: handleLikes.js:22 ~ like.addEventListener ~ likeIndex:",
+        likeIndex
+      );
+
+      //conditionnal rendering: increase or decrease the like
+      if ([...like.classList].includes("count-plus")) {
+        like.classList.remove("count-plus");
+        like.classList.add("count-moin");
+
+        //increase the number of likes
+        let increase = (photographerMedias[likeIndex].likes += 1);
+
+        //display increased likes on screen
+        numberOfLike[likeIndex].textContent = increase;
+      } else {
+        like.classList.add("count-plus");
+        like.classList.remove("count-moin");
+
+        //decrease the number of likes
+        let decrease = (photographerMedias[likeIndex].likes -= 1);
+
+        //display decreased likes on screen
+        numberOfLike[likeIndex].textContent = decrease;
+      }
+
+      //calcul new  totalLikes
+      const totalLikes = photographerMedias.reduce(
+        (accumulator, currentItemValue) => accumulator + currentItemValue.likes,
+        0
+      );
+
+      //display new  totalLikes
+      totalOfLike.innerHTML = totalLikes;
+    });
+  });
+};
+```
+
+### 8. Handle Filtering
+
+- [filterPhotographerMedias](/utils/filterPhotographerMedias.js) && [Photographer](/js/pages/photographer.js)
+
+```js
+//FILTER MENU ALGORITHM
+
+const sortMediaByPopularity = (medias, element, photographer) => {
+  //sort photographerMedias By Likes
+  const sortByLikes = medias.sort((a, b) => b.likes - a.likes);
+  console.log(
+    "🚀 ~ file: filterPhotographerMedias.js:10 ~ sortMediaByPopularity ~ sortByLikes:",
+    sortByLikes
+  );
+  new PhotographerPosts(
+    sortByLikes,
+    element,
+    photographer
+  ).createPhotographerPosts();
+};
+
+const sortMediaByTitles = (photographerMedias, element, photographer) => {
+  //sort photographerMedias By Likes
+  const sortTitles = photographerMedias.sort((a, b) =>
+    a.title.localeCompare(b.title)
+  );
+  console.log(
+    "🚀 ~ file: filterPhotographerMedias.js:24 ~ sortMediaByTitles ~ sortTitles:",
+    sortTitles
+  );
+
+  new PhotographerPosts(
+    sortTitles,
+    element,
+    photographer
+  ).createPhotographerPosts();
+};
+
+const sortMediaByDates = (photographerMedias, element, photographer) => {
+  //sort photographerMedias By Likes
+  const sortDates = photographerMedias.sort(
+    (a, b) => new Date(b.date) - new Date(a.date)
+  );
+  console.log(
+    "🚀 ~ file: filterPhotographerMedias.js:45 ~ sortMediaByDates ~ sortDates:",
+    sortDates
+  );
+
+  new PhotographerPosts(
+    sortDates,
+    element,
+    photographer
+  ).createPhotographerPosts();
+};
+```
+
+### 7. Manage the navigation between the home page and the photographer page
