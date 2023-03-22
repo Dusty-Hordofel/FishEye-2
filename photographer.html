@@ -31,7 +31,7 @@
       role="banner"
       tabindex="0"
       aria-label="En-tête de la page d'acceuil du photographe"
-      class="photographer-header-element"
+      class="photographer-header-element section-center"
     >
       <a href="index.html" target="blank" title="Lien vers la page d'acceuil">
         <img
@@ -48,6 +48,7 @@
       id="main"
       role="main"
       aria-label="Contenu principal de la page d'accueil du photographe"
+      class="section-center main-section"
     >
       <section class="photograph-header" tabindex="0"></section>
 
@@ -88,7 +89,10 @@
         tabindex="0"
         role="region"
         aria-label="Publications faites par le photographe"
-      ></section>
+      >
+        <div class="photographer-all-medias"></div>
+        <div class="photographer-likes-and-prices"></div>
+      </section>
 
       <!-- fullScreen medias -->
       <div class="full-screen-media hide">
@@ -178,6 +182,8 @@
     <!-- utils -->
     <script src="/utils/utils.js"></script>
     <script src="/utils/getUrlParameter.js"></script>
+    <script src="/utils/photographerFilterMenu.js"></script>
+    <script src="/utils/filterPhotographerMedias.js"></script>
 
     <!-- Entry point -->
     <script src="/js/pages/photographer.js"></script>

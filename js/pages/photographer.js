@@ -2,7 +2,11 @@ class PhotographerApp {
   //Use of the constructor function to create similar objects. It is a special method for creating and initializing an object created within a class.
   constructor() {
     this.$photographerSection = getElement(".photograph-header");
-    this.$photographerWorkSection = getElement(".photograph-work");
+    this.$photographerWorkSection = getElement(".photographer-all-medias");
+    this.$photographerLikesAndPrice = getElement(
+      ".photographer-likes-and-prices"
+    );
+    // this.$photographerWorkSection = getElement(".photograph-work");
 
     this.photographersApi = new photographersApi("/data/photographers.json");
   }
@@ -40,7 +44,7 @@ class PhotographerApp {
       (media) => media.photographerId == urlPhotographerId
     );
 
-    //Create ann instance of PhotographerPosts to display photographer posts
+    //Create an instance of PhotographerPosts to display photographer posts
     let PhotographerMediasTemplate = new PhotographerPosts(
       photographerMediasDetails,
       this.$photographerWorkSection,
@@ -54,7 +58,7 @@ class PhotographerApp {
     let likesTemplate = new photographerLikesAndPrice(
       photographerMediasDetails,
       photographerDetails,
-      this.$photographerWorkSection
+      this.$photographerLikesAndPrice
     );
 
     //display photographer likes and price in Card
@@ -68,7 +72,32 @@ class PhotographerApp {
     //handle likes
     handleLikes(likesBtn, likeNumber, newTotalLikes, photographerMediasDetails);
 
-    //filter photographer posts
+    //Filter Photographer Medias By Popularity
+    getElement("#popularite").addEventListener("click", () => {
+      sortMediaByPopularity(
+        photographerMediasDetails,
+        this.$photographerWorkSection,
+        photographerDetails
+      );
+    });
+
+    //Filter Photographer Medias By Titles
+    getElement("#titre").addEventListener("click", () => {
+      sortMediaByTitles(
+        photographerMediasDetails,
+        this.$photographerWorkSection,
+        photographerDetails
+      );
+    });
+
+    //Filter Photographer Medias By Date
+    getElement("#date").addEventListener("click", () => {
+      sortMediaByDates(
+        photographerMediasDetails,
+        this.$photographerWorkSection,
+        photographerDetails
+      );
+    });
   }
 }
 
