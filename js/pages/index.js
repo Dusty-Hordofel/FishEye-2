@@ -24,7 +24,7 @@ class IndexApp {
       this.$photographersSection
     );
     PhotographerCardTemplate.createCards();
-    //Create ann instance of PhotographerCard to display photographers
+    //OR
     // new PhotographerCard(
     //   photographers,
     //   this.$photographersSection

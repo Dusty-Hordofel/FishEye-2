@@ -17,6 +17,10 @@ class PhotographerApp {
     const photographerDetails = photographers.filter(
       (photographer) => photographer.id == urlPhotographerId
     )[0];
+    console.log(
+      "🚀 ~ file: photographer.js:20 ~ PhotographerApp ~ main ~ photographerDetails:",
+      photographerDetails
+    );
 
     //Create an instance of PhotographersFactory to create an instance of Photographer
     //transformer le tableau de données en tableau de class en utilisant le PhotographersFactory
@@ -46,6 +50,24 @@ class PhotographerApp {
     //display photographer medias
     PhotographerMediasTemplate.createPhotographerPosts();
 
+    //display photographer likes and price
+    let likesTemplate = new photographerLikesAndPrice(
+      photographerMediasDetails,
+      photographerDetails,
+      this.$photographerWorkSection
+    );
+
+    //display photographer likes and price in Card
+    likesTemplate.createPhotographerLikesAndPrice();
+
+    //Likes DOM elements
+    const likeNumber = getAllElement(".photographer-likes");
+    const newTotalLikes = getElement(".photographer-rate-and-price-likes");
+    const likesBtn = getAllElement(".like-btn");
+
+    //handle likes
+    handleLikes(likesBtn, likeNumber, newTotalLikes, photographerMediasDetails);
+
     //filter photographer posts
   }
 }
@@ -54,9 +76,54 @@ class PhotographerApp {
 const photographerApp = new PhotographerApp();
 photographerApp.main();
 
-//retrieve id from url
+/*retrieve id from url*/
 let urlPhotographerId = Number(getUrlParameter("id"));
-console.log(
-  "🚀 ~ file: photographer.js:41 ~ urlPhotographerId:",
-  urlPhotographerId
-);
+
+/*handle photographer likes*/
+const handleLikes = (
+  likesBtn,
+  numberOfLike,
+  totalOfLike,
+  photographerMedias
+) => {
+  likesBtn.forEach((like) => {
+    like.addEventListener("click", () => {
+      //retrieve the like index
+      const likeIndex = like.getAttribute("key");
+      console.log(
+        "🚀 ~ file: handleLikes.js:22 ~ like.addEventListener ~ likeIndex:",
+        likeIndex
+      );
+
+      //conditionnal rendering: increase or decrease the like
+      if ([...like.classList].includes("count-plus")) {
+        like.classList.remove("count-plus");
+        like.classList.add("count-moin");
+
+        //increase the number of likes
+        let increase = (photographerMedias[likeIndex].likes += 1);
+
+        //display increased likes on screen
+        numberOfLike[likeIndex].textContent = increase;
+      } else {
+        like.classList.add("count-plus");
+        like.classList.remove("count-moin");
+
+        //decrease the number of likes
+        let decrease = (photographerMedias[likeIndex].likes -= 1);
+
+        //display decreased likes on screen
+        numberOfLike[likeIndex].textContent = decrease;
+      }
+
+      //calcul new  totalLikes
+      const totalLikes = photographerMedias.reduce(
+        (accumulator, currentItemValue) => accumulator + currentItemValue.likes,
+        0
+      );
+
+      //display new  totalLikes
+      totalOfLike.innerHTML = totalLikes;
+    });
+  });
+};

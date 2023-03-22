@@ -780,4 +780,88 @@ console.log(
 );
 ```
 
+### 7. Handle Likes
+
+- create [photographerLikesAndPrice](/js/templates/photographerLikesAndPrice.js) template
+
+```js
+class photographerLikesAndPrice {
+  constructor(medias, photographer, allWorkSelector) {
+    this._medias = medias;
+    this._photographer = photographer;
+    this._allWorkSelector = allWorkSelector;
+  }
+  createPhotographerLikesAndPrice() {
+    //calcul photographer totalLikes
+    const totalLikes = this._medias.reduce(
+      (accumulator, currentItemValue) => accumulator + currentItemValue.likes,
+      0
+    );
+
+    //create rateAndPrice variable to store photographer totalLikes and price
+    const rateAndPrice = `
+        <div class="photographer-rate-and-price-container" tabindex="0">
+        <div class="photographer-rate-and-price-likes" tabindex="0">${totalLikes}<span><i class="fa-solid fa-heart"></i></span></div>
+        <div class="photographer-rate-and-price-prices" tabindex="0">${this._photographer.price}€ / jour</div>
+        </div>
+        `;
+
+    this._allWorkSelector.insertAdjacentHTML("beforeend", rateAndPrice);
+  }
+}
+```
+
+- handle Likes [handleLikes](js/pages/photographer.js)
+
+```js
+/*handle photographer likes*/
+const handleLikes = (
+  likesBtn,
+  numberOfLike,
+  totalOfLike,
+  photographerMedias
+) => {
+  likesBtn.forEach((like) => {
+    like.addEventListener("click", () => {
+      //retrieve the like index
+      const likeIndex = like.getAttribute("key");
+      console.log(
+        "🚀 ~ file: handleLikes.js:22 ~ like.addEventListener ~ likeIndex:",
+        likeIndex
+      );
+
+      //conditionnal rendering: increase or decrease the like
+      if ([...like.classList].includes("count-plus")) {
+        like.classList.remove("count-plus");
+        like.classList.add("count-moin");
+
+        //increase the number of likes
+        let increase = (photographerMedias[likeIndex].likes += 1);
+
+        //display increased likes on screen
+        numberOfLike[likeIndex].textContent = increase;
+      } else {
+        like.classList.add("count-plus");
+        like.classList.remove("count-moin");
+
+        //decrease the number of likes
+        let decrease = (photographerMedias[likeIndex].likes -= 1);
+
+        //display decreased likes on screen
+        numberOfLike[likeIndex].textContent = decrease;
+      }
+
+      //calcul new  totalLikes
+      const totalLikes = photographerMedias.reduce(
+        (accumulator, currentItemValue) => accumulator + currentItemValue.likes,
+        0
+      );
+
+      //display new  totalLikes
+      totalOfLike.innerHTML = totalLikes;
+    });
+  });
+};
+```
+
 ### 7. Manage the navigation between the home page and the photographer page
