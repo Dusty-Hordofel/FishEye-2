@@ -1,9 +1,44 @@
-// class PhotographerFactory {
-//   constructor(cardObject, type) {
+class photographerMediasFactory {
+  constructor(photographerData, element, type) {
+    if (type === "video") {
+      return new PhotographerPostsV2(
+        photographerData,
+        element
+      ).createPhotographerVideo();
+    } else if (type === "image") {
+      return new PhotographerPostsV2(
+        photographerData
+      ).createPhotographerPosts();
+    } else {
+      throw "Photographer factory error: unknown type format";
+    }
+  }
+}
+// class photographerMediasFactory {
+//   constructor(photographerData, type) {
 //     if (type === "video") {
-//       return new PhotographerProfileTemplateV2(cardObject).createPostVideo();
+//       return new Video(photographerData);
 //     } else if (type === "image") {
-//       return new PhotographerProfileTemplateV2(cardObject).createPostImage();
+//       return new Photo(photographerData);
+//     } else {
+//       throw "Photographer factory error: unknown type format";
+//     }
+//   }
+// }
+// class photographerMediasFactory {
+//   constructor(photographerData, element, photographer, type) {
+//     if (type === "video") {
+//       return new PhotographerPostsV2(
+//         photographerData,
+//         element,
+//         photographer
+//       ).createPhotographerPostVideo();
+//     } else if (type === "image") {
+//       return new PhotographerPostsV2(
+//         photographerData,
+//         element,
+//         photographer
+//       ).createPhotographerPostImage();
 //     } else {
 //       throw "Photographer factory error: unknown type format";
 //     }

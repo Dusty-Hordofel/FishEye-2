@@ -1,3 +1,9 @@
+PhotographerPages;
+
+// Get photographer id from url
+let urlPhotographerId = Number(getUrlParameter("id"));
+
+//Define Photographer class
 class PhotographerApp {
   //Use of the constructor function to create similar objects. It is a special method for creating and initializing an object created within a class.
   constructor() {
@@ -9,6 +15,7 @@ class PhotographerApp {
     // this.$photographerWorkSection = getElement(".photograph-work");
 
     this.photographersApi = new photographersApi("/data/photographers.json");
+    this.mediaApi = new mediasApi("/data/photographers.json");
   }
   async main() {
     //Retieve data from api
@@ -42,6 +49,21 @@ class PhotographerApp {
     //   use photographerId to display the right medias
     const photographerMediasDetails = medias.filter(
       (media) => media.photographerId == urlPhotographerId
+    );
+    console.log(
+      "🚀 ~ file: photographer.js:46 ~ PhotographerApp ~ main ~ photographerMediasDetails:",
+      photographerMediasDetails
+    );
+
+    // let ama = new Photo()
+    let amama = new photographerMediasFactory(
+      photographerMediasDetails,
+      this.$photographerWorkSection,
+      "image"
+    );
+    console.log(
+      "🚀 ~ file: photographer.js:56 ~ PhotographerApp ~ main ~ amama:",
+      amama
     );
 
     //Create an instance of PhotographerPosts to display photographer posts
@@ -104,9 +126,6 @@ class PhotographerApp {
 //Create an instance of IndexApp and call main method
 const photographerApp = new PhotographerApp();
 photographerApp.main();
-
-/*retrieve id from url*/
-let urlPhotographerId = Number(getUrlParameter("id"));
 
 /*handle photographer likes*/
 const handleLikes = (

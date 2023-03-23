@@ -1,29 +1,27 @@
-class IndexApp {
+class Homepage {
   //Use of the constructor function to create similar objects. It is a special method for creating and initializing an object created within a class.
   constructor() {
     this.$photographersSection = getElement(".photographer_section");
     this.photographersApi = new photographersApi("/data/photographers.json");
   }
 
-  async main() {
+  async photographers() {
     //Retieve data from api
-    const photographersData = await this.photographersApi.getMedias();
+    const photographersData = await this.photographersApi.getPhotographers();
 
-    //Use destructuring to retrieve utile data
-    const { photographers } = photographersData;
-
-    //Create an instance of PhotographersFactory to create an instance of Photographer
-    //transformer le tableau de données en tableau de class en utilisant le PhotographersFactory
-    let Photographers = photographers.map(
-      (photographer) => new PhotographersFactory(photographer)
+    //Create an instance of PhotographerFactory to create an instance of Photographer
+    //transformer le tableau de données en tableau de class en utilisant le PhotographerFactory
+    let Photographers = photographersData.map(
+      (photographer) => new PhotographerFactory(photographer)
     );
 
     //Create ann instance of PhotographerCard to display photographers
-    let PhotographerCardTemplate = new PhotographerCard(
+
+    let PhotographersCardTemplate = new PhotographersCard(
       Photographers,
       this.$photographersSection
     );
-    PhotographerCardTemplate.createCards();
+    PhotographersCardTemplate.createCards();
     //OR
     // new PhotographerCard(
     //   photographers,
@@ -33,5 +31,5 @@ class IndexApp {
 }
 
 //Create an instance of IndexApp and call main method
-const app = new IndexApp();
-app.main();
+const homepage = new Homepage();
+homepage.photographers();
