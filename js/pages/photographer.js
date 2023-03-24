@@ -1,69 +1,69 @@
-PhotographerPages;
-
 // Get photographer id from url
-let urlPhotographerId = Number(getUrlParameter("id"));
+let photographerIdFromUrl = Number(getUrlParameter("id"));
 
 //Define Photographer class
-class PhotographerApp {
+class PhotographerPage {
   //Use of the constructor function to create similar objects. It is a special method for creating and initializing an object created within a class.
   constructor() {
+    //Get element
     this.$photographerSection = getElement(".photograph-header");
     this.$photographerWorkSection = getElement(".photographer-all-medias");
     this.$photographerLikesAndPrice = getElement(
       ".photographer-likes-and-prices"
     );
+    // this.$likeNumber = getAllElement(".photographer-likes");
+    // // this.$newTotalLikes = getElement(".photographer-rate-and-price-likes");
+    // this.$likesBtn = getAllElement(".like-btn");
     // this.$photographerWorkSection = getElement(".photograph-work");
 
+    //Get Data from api
     this.photographersApi = new photographersApi("/data/photographers.json");
-    this.mediaApi = new mediasApi("/data/photographers.json");
+    this.mediasApi = new mediasApi("/data/photographers.json");
+
+    //Data filters functions
+    this.photographer = async () => {
+      const photographerData = await this.photographersApi.getPhotographers();
+      photographerData.map((photographer) => new Photographer(photographer));
+      const photographerDataFiltered = photographerData.find(
+        (photographer) => photographer.id == photographerIdFromUrl
+      );
+      return photographerDataFiltered;
+    };
+
+    this.media = async () => {
+      const mediasData = await this.mediasApi.getMedias();
+      mediasData.map((media) => new MediasFactory(media));
+      const mediasDataFiltered = mediasData.filter(
+        (photographer) => photographer.photographerId == photographerIdFromUrl
+      );
+      return mediasDataFiltered;
+    };
   }
-  async main() {
-    //Retieve data from api
-    const photographersData = await this.photographersApi.getMedias();
 
-    //Use destructuring to retrieve utile data
-    const { photographers, medias } = photographersData;
-
-    //   use photographerId to display the right photographer
-    const photographerDetails = photographers.filter(
-      (photographer) => photographer.id == urlPhotographerId
-    )[0];
-    console.log(
-      "🚀 ~ file: photographer.js:20 ~ PhotographerApp ~ main ~ photographerDetails:",
-      photographerDetails
-    );
+  // Display photographerProfile
+  async photographerProfile() {
+    const photographerDetails = await this.photographer();
 
     //Create an instance of PhotographersFactory to create an instance of Photographer
     //transformer le tableau de données en tableau de class en utilisant le PhotographersFactory
-    let Photographer = new PhotographerProfileFactory(photographerDetails);
+    const Photographer = new PhotographerProfileFactory(photographerDetails);
 
-    //Create ann instance of PhotographerCard to display photographers
+    //Create an instance of PhotographerProfile to display photographer's profile
     let PhotographerProfileTemplate = new PhotographerProfile(
       Photographer,
       this.$photographerSection
     );
-
-    //display photographer profile
     PhotographerProfileTemplate.createPhotographerProfile();
+  }
 
-    //   use photographerId to display the right medias
-    const photographerMediasDetails = medias.filter(
-      (media) => media.photographerId == urlPhotographerId
-    );
+  // Display photographer's medias
+
+  async photographerMedias() {
+    const photographerDetails = await this.photographer();
+    const photographerMediasDetails = await this.media();
     console.log(
-      "🚀 ~ file: photographer.js:46 ~ PhotographerApp ~ main ~ photographerMediasDetails:",
+      "🚀 ~ file: photographer.js:64 ~ PhotographerPage ~ photographerMedias ~ photographerMediasDetails:",
       photographerMediasDetails
-    );
-
-    // let ama = new Photo()
-    let amama = new photographerMediasFactory(
-      photographerMediasDetails,
-      this.$photographerWorkSection,
-      "image"
-    );
-    console.log(
-      "🚀 ~ file: photographer.js:56 ~ PhotographerApp ~ main ~ amama:",
-      amama
     );
 
     //Create an instance of PhotographerPosts to display photographer posts
@@ -75,6 +75,13 @@ class PhotographerApp {
 
     //display photographer medias
     PhotographerMediasTemplate.createPhotographerPosts();
+  }
+  // Init filter and render medias
+
+  // Display photographer's likes and prices
+  async photographerLikesAndPrice() {
+    const photographerDetails = await this.photographer();
+    const photographerMediasDetails = await this.media();
 
     //display photographer likes and price
     let likesTemplate = new photographerLikesAndPrice(
@@ -86,35 +93,52 @@ class PhotographerApp {
     //display photographer likes and price in Card
     likesTemplate.createPhotographerLikesAndPrice();
 
-    //Likes DOM elements
+    // console.log(this.$likesBtn);
+  }
+
+  //handle photographer likes
+  async handlePhotographerLikes() {
+    const photographerMediasDetails = await this.media();
+    this.$newTotalLikes = getElement(".photographer-rate-and-price-likes");
+
+    //Get element
+    const likesBtn = getAllElement(".like-btn");
     const likeNumber = getAllElement(".photographer-likes");
     const newTotalLikes = getElement(".photographer-rate-and-price-likes");
-    const likesBtn = getAllElement(".like-btn");
+    // this.$likesBtn = getAllElement(".like-btn");
+    // this.$likeNumber = getAllElement(".photographer-likes");
+    // this.$newTotalLikes = getElement(".photographer-rate-and-price-likes");
 
-    //handle likes
     handleLikes(likesBtn, likeNumber, newTotalLikes, photographerMediasDetails);
+  }
 
-    //Filter Photographer Medias By Popularity
-    getElement("#popularite").addEventListener("click", () => {
-      sortMediaByPopularity(
-        photographerMediasDetails,
-        this.$photographerWorkSection,
-        photographerDetails
-      );
-    });
+  //filter medias
+  async mano() {
+    return console.log(await this.media());
+  }
 
+  //fitering
+
+  //Filter Photographer Medias By Popularity
+  // async filterPhotographerMediasByPopularity() {
+  //   const photographerDetails = await this.photographer();
+  //   const photographerMediasDetails = await this.media();
+  //   //Filter Photographer Medias By Popularity
+  //   getElement("#popularite").addEventListener("click", () => {
+  //     sortMediaByPopularity(
+  //       photographerMediasDetails,
+  //       this.$photographerWorkSection,
+  //       photographerDetails
+  //     );
+  //   });
+  // }
+
+  async filterPhotographerMediasByTitle() {
+    const photographerDetails = await this.photographer();
+    const photographerMediasDetails = await this.media();
     //Filter Photographer Medias By Titles
     getElement("#titre").addEventListener("click", () => {
       sortMediaByTitles(
-        photographerMediasDetails,
-        this.$photographerWorkSection,
-        photographerDetails
-      );
-    });
-
-    //Filter Photographer Medias By Date
-    getElement("#date").addEventListener("click", () => {
-      sortMediaByDates(
         photographerMediasDetails,
         this.$photographerWorkSection,
         photographerDetails
@@ -124,54 +148,43 @@ class PhotographerApp {
 }
 
 //Create an instance of IndexApp and call main method
-const photographerApp = new PhotographerApp();
-photographerApp.main();
+const photographerPage = new PhotographerPage();
+// photographerPage.main();
 
-/*handle photographer likes*/
-const handleLikes = (
-  likesBtn,
-  numberOfLike,
-  totalOfLike,
-  photographerMedias
-) => {
-  likesBtn.forEach((like) => {
-    like.addEventListener("click", () => {
-      //retrieve the like index
-      const likeIndex = like.getAttribute("key");
-      console.log(
-        "🚀 ~ file: handleLikes.js:22 ~ like.addEventListener ~ likeIndex:",
-        likeIndex
+// console.log(document.querySelectorAll(".photographer-likes"));
+// this.$likeNumber = getAllElement(".photographer-likes");
+// this.$newTotalLikes = getElement(".photographer-rate-and-price-likes");
+// this.$likesBtn = getAllElement(".like-btn");
+
+/*async filterPhotographerMediasByTitle() {
+    const photographerDetails = await this.photographer();
+    const photographerMediasDetails = await this.media();
+    //Filter Photographer Medias By Titles
+    getElement("#titre").addEventListener("click", () => {
+      sortMediaByTitles(
+        photographerMediasDetails,
+        this.$photographerWorkSection,
+        photographerDetails
       );
-
-      //conditionnal rendering: increase or decrease the like
-      if ([...like.classList].includes("count-plus")) {
-        like.classList.remove("count-plus");
-        like.classList.add("count-moin");
-
-        //increase the number of likes
-        let increase = (photographerMedias[likeIndex].likes += 1);
-
-        //display increased likes on screen
-        numberOfLike[likeIndex].textContent = increase;
-      } else {
-        like.classList.add("count-plus");
-        like.classList.remove("count-moin");
-
-        //decrease the number of likes
-        let decrease = (photographerMedias[likeIndex].likes -= 1);
-
-        //display decreased likes on screen
-        numberOfLike[likeIndex].textContent = decrease;
-      }
-
-      //calcul new  totalLikes
-      const totalLikes = photographerMedias.reduce(
-        (accumulator, currentItemValue) => accumulator + currentItemValue.likes,
-        0
-      );
-
-      //display new  totalLikes
-      totalOfLike.innerHTML = totalLikes;
     });
-  });
+  }*/
+
+// initApp function
+const initPhotographerApp = async () => {
+  const photographerPage = new PhotographerPage();
+  await photographerPage.photographerProfile();
+
+  await photographerPage.photographerMedias();
+
+  // console.log(await photographerPage.photographerMedias());
+  await photographerPage.photographerLikesAndPrice();
+
+  await photographerPage.handlePhotographerLikes();
+
+  // await photographerPage.filterPhotographerMediasByPopularity();
+  await photographerPage.filterPhotographerMediasByTitle();
+
+  await photographerPage.mano();
 };
+
+initPhotographerApp();

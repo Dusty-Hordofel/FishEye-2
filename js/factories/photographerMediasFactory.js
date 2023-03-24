@@ -1,19 +1,18 @@
-class photographerMediasFactory {
-  constructor(photographerData, element, type) {
-    if (type === "video") {
-      return new PhotographerPostsV2(
-        photographerData,
-        element
-      ).createPhotographerVideo();
-    } else if (type === "image") {
-      return new PhotographerPostsV2(
-        photographerData
-      ).createPhotographerPosts();
+// Factory function to create media with Image or Video Class
+class MediasFactory {
+  constructor(data) {
+    if (data.image) {
+      return new Image(data);
+    } else if (data.video) {
+      return new Video(data);
     } else {
-      throw "Photographer factory error: unknown type format";
+      throw "Unknown data";
     }
   }
 }
+
+// export { MediasFactory };
+
 // class photographerMediasFactory {
 //   constructor(photographerData, type) {
 //     if (type === "video") {
