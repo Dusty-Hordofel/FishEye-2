@@ -229,22 +229,11 @@ small {
 /* Photographe medias */
 /************************************/
 
-.photograph-work {
-  /* display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-bottom: 100px;
-  transition: 0.3s ease-in-out; */
-  background: #c54545;
-}
 .photograph-work-content {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   justify-content: center;
   align-items: center;
-  /* margin: auto; */
-  /* align-items: center; */
-  /* justify-content: space-between; */
   gap: 79px;
   transition: 0.3s ease-in;
 }
@@ -277,7 +266,6 @@ small {
   color: #901c1c;
   white-space: nowrap;
   overflow: hidden;
-  background: yellow;
   height: 35px;
 }
 
@@ -301,7 +289,6 @@ small {
 }
 
 .photographer-all-medias {
-  background: #036a65;
   margin-bottom: 100px;
 }
 
@@ -423,12 +410,7 @@ small {
   width: 304px;
 }
 
-.photograph-work-filter {
-  background: yellow;
-}
-
 .category-title {
-  /* background: yellow; */
   text-align: center;
   width: 70px;
   height: 120px;
@@ -440,12 +422,14 @@ small {
   font-size: 18px;
   font-weight: 400;
 }
+
 select {
   border-radius: 4px;
   font-size: 1.2rem;
   padding: 1em 1.5em;
   color: white;
 }
+
 select option {
   background-color: #901c1c;
 }

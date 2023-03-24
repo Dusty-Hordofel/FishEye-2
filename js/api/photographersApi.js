@@ -20,13 +20,24 @@ class Api {
   }
 }
 
-// photographersApi class extends Api class to fetch data from api
+// photographersApi class extends Api class to fetch photographer's information from api
 class photographersApi extends Api {
   constructor(url) {
     super(url);
   }
 
-  getMedias() {
-    return this.get();
+  async getPhotographers() {
+    return this.get().then((data) => data.photographers);
+  }
+}
+
+// mediasApi class extends Api class to fetch photographer's  medias  from api
+class mediasApi extends Api {
+  constructor(url) {
+    super(url);
+  }
+
+  async getMedias() {
+    return this.get().then((data) => data.medias);
   }
 }

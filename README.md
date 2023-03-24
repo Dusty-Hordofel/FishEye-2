@@ -920,4 +920,8 @@ const sortMediaByDates = (photographerMedias, element, photographer) => {
 };
 ```
 
+### 9. Update HomePage information
+
+### 10. Update Photographer information
+
 ### 7. Manage the navigation between the home page and the photographer page

@@ -8,6 +8,7 @@ class PhotographerPosts {
 
   //Create the createCards function to create the cards of the photographers
   createPhotographerPosts() {
+    let allPhotographerMedias = this.medias;
     //autoplay muted controls
     this.element.innerHTML = `
           <ul class= "photograph-work-content">
@@ -15,6 +16,7 @@ class PhotographerPosts {
             .map((media, index) => {
               const { likes, title, video, image, date, photographerId, id } =
                 media;
+              // console.log(media);
               return ` 
               <li class="photograph-work-container" tabindex="0" data-photographer-id="${photographerId}" data-post-id="${id}" data-date-of-publication="${date}" data-likes="${likes}" data-user-liked="false" data-title="${title}" >
               <a href="#" title="${title}" aria-label="${
