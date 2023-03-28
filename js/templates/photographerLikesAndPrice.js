@@ -10,15 +10,13 @@ class photographerLikesAndPrice {
       (accumulator, currentItemValue) => accumulator + currentItemValue.likes,
       0
     );
-    console.log(
-      "🚀 ~ file: photographerLikesAndPrice.js:13 ~ photographerLikesAndPrice ~ createPhotographerLikesAndPrice ~ totalLikes:",
-      totalLikes
-    );
 
     //create rateAndPrice variable to store photographer totalLikes and price
     const rateAndPrice = `
         <div class="photographer-rate-and-price-container" tabindex="0">
-        <div class="photographer-rate-and-price-likes" tabindex="0">${totalLikes}<span><i class="fa-solid fa-heart"></i></span></div>
+        <div class="photographer-rate-and-price-likes" tabindex="0">
+        <span class="photographer-rate-and-price-likes-number">${totalLikes}</span>
+        <span><i class="fa-solid fa-heart"></i></span></div>
         <div class="photographer-rate-and-price-prices" tabindex="0">${this._photographer.price}€ / jour</div>
         </div>
         `;

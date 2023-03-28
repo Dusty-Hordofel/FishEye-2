@@ -8,10 +8,6 @@ class PhotographerProfile {
   //Create the createCards function to create the cards of the photographers
   createPhotographerProfile() {
     const { city, country, name, portrait, tagline } = this.information;
-    console.log(
-      "🚀 ~ file: PhotographeProfil.js:11 ~ PhotographerProfil ~ createPhotographerProfil ~ city:",
-      city
-    );
 
     this.element.innerHTML = `
       <div class="photograph-description">

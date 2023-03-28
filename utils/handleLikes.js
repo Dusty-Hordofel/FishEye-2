@@ -1,48 +1,45 @@
-/*handle photographer likes*/
-const handleLikes = (
-  likesBtn,
-  numberOfLike,
-  totalOfLike,
-  photographerMedias
-) => {
-  likesBtn.forEach((like) => {
-    like.addEventListener("click", () => {
-      //retrieve the like index
-      const likeIndex = like.getAttribute("key");
-      console.log(
-        "🚀 ~ file: handleLikes.js:22 ~ like.addEventListener ~ likeIndex:",
-        likeIndex
-      );
+//handle photographer likes
 
-      //conditionnal rendering: increase or decrease the like
-      if ([...like.classList].includes("count-plus")) {
-        like.classList.remove("count-plus");
-        like.classList.add("count-moin");
+function handleLikes(id, type) {
+  let nbLike = document.getElementById("like-" + id).innerHTML;
 
-        //increase the number of likes
-        let increase = (photographerMedias[likeIndex].likes += 1);
+  nbLike = parseInt(nbLike);
+  let nbLikeTotal = getElement(
+    ".photographer-rate-and-price-likes-number"
+  ).innerHTML;
 
-        //display increased likes on screen
-        numberOfLike[likeIndex].textContent = increase;
-      } else {
-        like.classList.add("count-plus");
-        like.classList.remove("count-moin");
+  nbLikeTotal = parseInt(nbLikeTotal);
 
-        //decrease the number of likes
-        let decrease = (photographerMedias[likeIndex].likes -= 1);
+  if (type == "like") {
+    nbLike = nbLike + 1;
+    nbLikeTotal = nbLikeTotal + 1;
 
-        //display decreased likes on screen
-        numberOfLike[likeIndex].textContent = decrease;
-      }
+    document
+      .getElementsByClassName("like-" + id)[0]
+      .getElementsByClassName("count-plus")[0].style.color = "#901c1c";
 
-      //calcul new  totalLikes
-      const totalLikes = photographerMedias.reduce(
-        (accumulator, currentItemValue) => accumulator + currentItemValue.likes,
-        0
-      );
+    // Changer la function
 
-      //display new  totalLikes
-      totalOfLike.innerHTML = totalLikes;
-    });
-  });
-};
+    document
+      .getElementsByClassName("like-" + id)[0]
+      .getElementsByClassName("like-btn")[0]
+      .setAttribute("onclick", "handleLikes('" + id + "', 'unlike')");
+  } else {
+    nbLike = nbLike - 1;
+    nbLikeTotal = nbLikeTotal - 1;
+
+    document
+      .getElementsByClassName("like-" + id)[0]
+      .getElementsByClassName("count-plus")[0].style.color = "#db8876";
+
+    // Changer la function
+    document
+      .getElementsByClassName("like-" + id)[0]
+      .getElementsByClassName("like-btn")[0]
+      .setAttribute("onclick", "handleLikes('" + id + "', 'like')");
+  }
+  //Changer les éléments
+  document.getElementById("like-" + id).innerHTML = nbLike;
+  getElement(".photographer-rate-and-price-likes-number").innerHTML =
+    nbLikeTotal;
+}

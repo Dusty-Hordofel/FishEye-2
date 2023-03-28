@@ -1,30 +1,38 @@
 class PhotographerPosts {
   //Use of the constructor function to create similar objects. It is a special method for creating and initializing an object created within a class.
-  constructor(medias, element, photographer) {
-    this.medias = medias;
-    this.element = element;
+  constructor(media, photographer) {
+    this.media = media;
     this.photographer = photographer.name;
   }
 
-  //Create the createCards function to create the cards of the photographers
-  createPhotographerPosts() {
-    let allPhotographerMedias = this.medias;
+  //Create the createCard function to create  photographer's posts
+  createPhotographerPost() {
+    let template = "";
+    const { likes, title, video, image, date, photographerId, id } = this.media;
+
+    let mediaContainer = document.createElement("div");
+    mediaContainer.classList.add("photograph-work-container");
+    this.indexPhoto =
+      document.querySelectorAll(".photograph-work-container").length + 1;
+    let datePrecise = date;
+    datePrecise = new Date(datePrecise).getTime();
+    mediaContainer.setAttribute("tabindex", "0");
+    mediaContainer.setAttribute("id", `${this.indexPhoto}`);
+    mediaContainer.setAttribute("data-likes", likes);
+    mediaContainer.setAttribute("data-date", "'" + datePrecise + "'");
+    mediaContainer.setAttribute("data-titre", title);
+
     //autoplay muted controls
-    this.element.innerHTML = `
-          <ul class= "photograph-work-content">
-          ${this.medias
-            .map((media, index) => {
-              const { likes, title, video, image, date, photographerId, id } =
-                media;
-              // console.log(media);
-              return ` 
-              <li class="photograph-work-container" tabindex="0" data-photographer-id="${photographerId}" data-post-id="${id}" data-date-of-publication="${date}" data-likes="${likes}" data-user-liked="false" data-title="${title}" >
+    let mediaCard = ` 
+
               <a href="#" title="${title}" aria-label="${
-                image ? "Image" : "Vidéo"
-              } nommée ${title}" role="link" tabindex="0">
+      image ? "Image" : "Vidéo"
+    } nommée ${title}" role="link" tabindex="0" onclick="openLightbox(${
+      this.indexPhoto
+    }, '${title}')" class="lightbox-link">
               <${image ? "img" : "video"} src="assets/images/${
-                this.photographer
-              }/${image ? image : video}"
+      this.photographer
+    }/${image ? image : video}"
 
               ${
                 image
@@ -35,20 +43,18 @@ class PhotographerPosts {
                 class="photographer-medias" 
                id=${
                  image ? "photograph-content-img" : "photograph-content-video"
-               } key="${index}"  ${image ? "/" : ""}> ${image ? "" : "</video>"}
+               } key="${id}"  ${image ? "/" : ""}> ${image ? "" : "</video>"}
                </a>
               <div class="photograph-work-content-description">
-              <p tabindex="0">${title}</p>
-              <div class="photograph-work-content-description-likes" tabindex="0">
-              <p class="photographer-likes" >${likes}</p>
-              <button class="like-btn count-plus" key="${index}" title="Mettre un like au post '${title}'?" aria-pressed="false"
-              aria-label="Bouton pour liker la publication nommée '${title}'" ><i class="fa-solid fa-heart count-plus" ></i></button>
+              <p tabindex="0" class="media-title">${title}</p>
+              <div class="photograph-work-content-description-likes like-${id}" tabindex="0">
+              <p class="photographer-likes" id="like-${id}">${likes}</p>
+              <button class="like-btn" key="${id}" title="Mettre un like au post '${title}'?" aria-pressed="false"
+              aria-label="Bouton pour liker la publication nommée '${title}'" onclick="handleLikes('${id}', 'like')"><i class="fa-solid fa-heart count-plus" ></i></button>
               </div>
-              </div>
-              </li>`;
-            })
-            .join("")}
-                </ul>
-                `;
+              </div>`;
+
+    mediaContainer.innerHTML = mediaCard;
+    return mediaContainer;
   }
 }
