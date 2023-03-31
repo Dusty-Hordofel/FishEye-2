@@ -27,5 +27,3 @@ class Video extends Media {
     this._video = data.video;
   }
 }
-
-// export { Media, Image, Video };
