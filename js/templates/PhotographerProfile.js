@@ -8,18 +8,15 @@ class PhotographerProfile {
   //Create the createCards function to create the cards of the photographers
   createPhotographerProfile() {
     const { city, country, name, portrait, tagline } = this.information;
-    console.log(
-      "🚀 ~ file: PhotographeProfil.js:11 ~ PhotographerProfil ~ createPhotographerProfil ~ city:",
-      city
-    );
+    document.querySelector(".photographer-contact-name").innerHTML = name; //add name to the contact form
 
     this.element.innerHTML = `
       <div class="photograph-description">
-      <h1 tabindex="0">${name}</h1>
+      <h1 tabindex="0" class="photographer-name">${name}</h1>
       <p class="location" aria-label="ville et pays de ${name}" tabindex="0">${city}, ${country}</p>
       <p class="description" tabindex="0" aria-label="citation du photographe ${name}">${tagline}</p>
     </div>
-    <button class="contact_button" onclick="displayModal()" tabindex="0"
+    <button class="contact_button" onclick="displayModal()" ontouchstart="displayModal()" tabindex="0"
     aria-label="Bouton pour ouvrir la boîte de dialogue pour contacter le photographe ${name}">Contactez-moi</button>
     <img src="assets/photographers/${portrait}" alt="photo de profil du photographe ${name}" tabindex="0"/>
   

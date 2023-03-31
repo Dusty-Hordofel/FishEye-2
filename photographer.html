@@ -1,5 +1,5 @@
-<!DOCTYPE html lang="fr">
-<html>
+<!DOCTYPE html>
+<html lang="fr">
   <head>
     <!-- link stylesheet file -->
     <link href="css/style.css" rel="stylesheet" type="text/css" />
@@ -53,7 +53,7 @@
       <section class="photograph-header" tabindex="0"></section>
 
       <!-- Filtering Dropdown menu -->
-      <div
+      <!-- <div
         class="photograph-categories"
         aria-label="filtrer les photos par categories"
         tabindex="0"
@@ -81,6 +81,24 @@
             </div>
           </div>
         </div>
+      </div> -->
+      <!-- Filtering  menu 2-->
+      <div id="sort" tabindex="0">
+        <label class="trier-texte" for="select-trier" tabindex="0"
+          >Trier par
+        </label>
+        <select
+          id="select-trier"
+          class="sort-by"
+          onchange="sorts(this)"
+          tabindex="0"
+          aria-label="Bouton pour ouvrir le menu déroulant"
+        >
+          <option disabled selected>Choisir</option>
+          <option>Popularité</option>
+          <option>Date</option>
+          <option>Titre</option>
+        </select>
       </div>
 
       <!-- photographer medias -->
@@ -90,91 +108,164 @@
         role="region"
         aria-label="Publications faites par le photographe"
       >
-        <div class="photographer-all-medias"></div>
+        <div class="photographer-all-medias photograph-work-content"></div>
         <div class="photographer-likes-and-prices"></div>
       </section>
 
       <!-- fullScreen medias -->
-      <div class="full-screen-media hide">
+      <div class="full-screen-media">
         <div class="full-screen-modal">
-          <div class="first-icon">
-            <i class="fa-solid fa-chevron-left slider-icon"></i>
-          </div>
+          <button type="button" class="first-icon" tabindex="0">
+            <i
+              class="fa-solid fa-chevron-left slider-icon"
+              aria-label="Bouton pour passer à l'image précédente"
+            ></i>
+          </button>
           <div class="medias-container">
-            <div class="medias">
-              <img
-                src=""
-                class="photograph-work-content-img-modal photograph-work-img hide"
-                alt="photograph work presentation"
-              />
-              <video
-                src=""
-                class="photograph-work-content-img-modal photograph-work-video hide"
-                autoplay
-                muted
-                controls
-              ></video>
-            </div>
+            <div class="medias"></div>
             <div class="photograph-image-title">
-              <h2 class="title"></h2>
+              <p class="title"></p>
             </div>
           </div>
           <div class="second-icons">
             <div class="icons-container">
-              <div class="right-chevron">
-                <i class="fa-solid fa-chevron-right slider-icon"></i>
-              </div>
-              <button type="button" class="close-button">
-                <i class="fa-solid fa-xmark media-close-icon slider-icon"></i>
+              <button type="button" class="right-chevron" tabindex="0">
+                <i
+                  class="fa-solid fa-chevron-right slider-icon"
+                  aria-label="Bouton pour passer à l'image suivante"
+                ></i>
+              </button>
+              <button type="button" class="close-button" tabindex="0">
+                <i
+                  aria-label="Bouton pour fermer la boîte de dialogue"
+                  class="fa-solid fa-xmark media-close-icon slider-icon"
+                  onclick="closeLightbox()"
+                ></i>
               </button>
             </div>
           </div>
         </div>
       </div>
     </main>
-    <!-- END MAIN  -->
+    <!-- End Main  -->
 
-    <!-- <header>
-      <img src="assets/images/logo.png" class="logo" />
-    </header>
-    <main id="main">
-      <div class="photograph-header">
-        <button class="contact_button" onclick="displayModal()">
-          Contactez-moi
-        </button>
-      </div>
-    </main>
+    <!-- Contact Modal -->
+
     <div id="contact_modal">
       <div class="modal">
-        <header>
-          <h2>Contactez-moi</h2>
-          <img src="assets/icons/close.svg" onclick="closeModal()" />
+        <!-- conact button -->
+        <header class="modal-header" tabindex="0">
+          <h2 tabindex="0" class="contact-photographer">
+            <span class="contact-script">Contactez-moi </span>
+            <span class="photographer-contact-name"></span>
+          </h2>
+          <img
+            src="assets/icons/close.svg"
+            onclick="closeModal()"
+            ontouchstart="closeModal()"
+            alt="Bouton pour fermer la boîte de dialogue"
+            tabindex="0"
+            class="contact-close-button"
+          />
         </header>
-        <form>
-          <div>
-            <label>Prénom</label>
-            <input />
+        <!-- forms -->
+        <form
+          name="reserve"
+          action="photographer.html"
+          method="dialog"
+          role="form"
+          id="form"
+          class="form"
+          focus
+        >
+          <div class="formData" role="group">
+            <label for="first">Prénom</label>
+            <input
+              class="text-control"
+              type="text"
+              id="first"
+              name="first"
+              minlength="2"
+              aria-invalid="false"
+              aria-errormessage="lat-name-error"
+              data-autofocus
+            />
+            <div class="input-handler" role="group">
+              <br />
+              <small tabindex="0"></small>
+            </div>
           </div>
-          <button class="contact_button">Envoyer</button>
+          <div class="formData" role="group">
+            <label for="last">Nom</label>
+            <input
+              class="text-control"
+              type="text"
+              id="last"
+              name="last"
+              aria-invalid="false"
+              aria-errormessage="lat-name-error"
+            />
+            <div class="input-handler">
+              <br />
+              <small tabindex="0"></small>
+            </div>
+          </div>
+          <div class="formData" role="group">
+            <label for="email">E-mail</label>
+            <input
+              class="text-control"
+              type="email"
+              id="email"
+              name="email"
+              aria-invalid="false"
+              aria-errormessage="lat-name-error"
+            />
+            <div class="input-handler">
+              <br />
+              <small tabindex="0"></small>
+            </div>
+          </div>
+          <div class="formData" role="group">
+            <label for="message">Votre message</label>
+            <textarea
+              id="message"
+              name="message"
+              class="text-control"
+              aria-invalid="false"
+              aria-errormessage="lat-name-error"
+            ></textarea>
+            <div class="input-handler">
+              <br />
+              <small tabindex="0"></small>
+            </div>
+          </div>
+          <button
+            type="submit"
+            class="contact_button_send"
+            aria-label="Bouton pour envoyer le message"
+          >
+            Envoyer
+          </button>
         </form>
+        <!-- end forms -->
       </div>
-    </div> -->
+    </div>
+
+    <!-- End Of Contact Modal -->
+
     <!-- contactForm -->
     <script src="/utils/contactForm.js"></script>
 
     <!-- Factories -->
     <script src="/js/factories/PhotographerProfileFactory.js"></script>
     <script src="/js/factories/photographerMediasFactory.js"></script>
-    <!-- <script src="/js/factories/photographerMediasFactory.js"></script> -->
 
     <!-- Models -->
     <script src="/js/models/Photographer.js"></script>
     <script src="/js/models/Medias.js"></script>
-    <!-- <script src="/js/models/Photo.js"></script>
-    <script src="/js/models/Video.js"></script> -->
 
     <!-- Templates   -->
-    <script src="/js/templates/PhotographerPosts-v2.js"></script>
+    <!-- <script src="/js/templates/PhotographerPosts-v2.js"></script> -->
     <script src="/js/templates/PhotographerProfile.js"></script>
     <script src="/js/templates/PhotographerPosts.js"></script>
     <script src="/js/templates/photographerLikesAndPrice.js"></script>
@@ -185,10 +276,9 @@
     <!-- utils -->
     <script src="/utils/utils.js"></script>
     <script src="/utils/getUrlParameter.js"></script>
-    <script src="/utils/photographerFilterMenu.js"></script>
-    <script src="/utils/filterPhotographerMedias.js"></script>
+    <script src="/utils/filterMedias.js"></script>
+    <script src="/utils/lightBox.js"></script>
     <script src="/utils/handleLikes.js"></script>
-    <!-- <script src="/utils/fofo.js"></script> -->
 
     <!-- Entry point -->
     <script src="/js/pages/photographer.js"></script>

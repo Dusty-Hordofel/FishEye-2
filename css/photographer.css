@@ -13,7 +13,8 @@
   box-sizing: border-box;
 }
 
-html {
+html,
+body {
   scroll-behavior: smooth;
 }
 
@@ -29,15 +30,25 @@ input,
 textarea {
   padding: 8px;
   border: 0.8px solid #ccc;
-  outline: none;
+  /* outline: none; */
 }
 
+button {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background: transparent;
+}
+
+/* body {
+  overflow: hidden;
+} */
 /************************************/
 /* REUSED STYLE */
 /************************************/
 
 .section-center {
-  width: 90vw;
+  width: 86.12vw;
   /* width: 86.12vw; */
   max-width: var(--max-width);
   margin: 0 auto;
@@ -47,25 +58,54 @@ textarea {
 /* Photographe header */
 /************************************/
 
-#contact_modal {
+/* #contact_modal {
   display: none;
+  //position: fixed; 
+  z-index: 10;
+  // left: 0; 
+  // top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto; 
+  background-color: rgba(196, 196, 196, 0.4);
+//padding-top: 52px; 
+} */
+
+/* #contact_modal {
   position: fixed;
-  z-index: 1;
+  z-index: 10;
   left: 0;
   top: 0;
   height: 100%;
   width: 100%;
+  //max-height: 100vh;
+  // overflow: hidden; 
   overflow: auto;
+  // background: #036a65; 
   background-color: rgba(196, 196, 196, 0.4);
-  padding: 62px;
+  // background-color: #312e2e; 
+  // background: #821010; 
+  transition: 0.3s ease-in-out;
+  display: none;
+  // display: flex; 
+  justify-content: center;
+  align-items: center;
+} */
+
+.photographer-contact-name,
+.contact-script {
+  display: block;
+}
+
+.contact-photographer {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
 }
 
 .photographer-header-element {
   margin-bottom: 50px;
-}
-
-.photographer-header-element img {
-  /* margin-left: 100px; */
 }
 
 .photograph-header {
@@ -101,7 +141,7 @@ textarea {
 
 .photograph-description .description {
   margin-top: 0;
-  color: #757575;
+  color: #525252;
   font-size: 23px;
 }
 
@@ -112,7 +152,8 @@ textarea {
   object-fit: cover;
 }
 
-.contact_button {
+.contact_button,
+.contact_button_send {
   font-size: 20px;
   font-weight: bold;
   color: white;
@@ -126,6 +167,11 @@ textarea {
   margin-top: 26px;
 }
 
+.contact_button:hover {
+  background-color: #db8876;
+  color: black;
+}
+
 /************************************/
 /* Photographe modal */
 /************************************/
@@ -133,22 +179,34 @@ textarea {
 .modal {
   border-radius: 5px;
   background-color: #db8876;
-  width: 50%;
+  width: 669px;
+  /* width: 50%; */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   padding: 35px;
   margin: auto;
+  transition: all 2s ease;
+  background: #036a65;
+  /* padding-bottom: 60px; */
 }
 
 .modal header {
-  justify-content: space-between;
+  /* justify-content: space-between; */
   width: 100%;
+  background: #312e2e;
+  padding: 0px;
 }
 
 .modal header img {
   cursor: pointer;
+  background: yellow;
+  /* background: #821010; */
+  padding-bottom: 100px;
+  transition: all 2s ease;
+  /* position: relative;
+  top: -50px; */
 }
 
 .modal header h2,
@@ -232,18 +290,19 @@ small {
 .photograph-work-content {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  justify-content: center;
-  align-items: center;
-  gap: 79px;
+  place-items: center;
+
+  column-gap: 95px;
+  row-gap: 30px;
   transition: 0.3s ease-in;
 }
 
 .photograph-work-container {
-  max-width: 350px;
+  max-width: 365px;
 }
 
 .photographer-medias {
-  width: 350px;
+  width: 365px;
   height: 300px;
   list-style-type: none;
   border-radius: 5px;
@@ -253,8 +312,8 @@ small {
   transition: 0.3s linear;
 }
 
-#photograph-content-img:hover,
-#photograph-content-video:hover {
+.photograph-content-img:hover,
+.photograph-content-video:hover {
   transform: scale(1.05);
 }
 
@@ -284,7 +343,8 @@ small {
   margin-left: 0.6rem;
   background: transparent;
   border: none;
-  color: #901c1c;
+  color: #db8876;
+  /* color: #901c1c; */
   font-size: 20px;
 }
 
@@ -318,7 +378,8 @@ small {
 /************************************/
 /* Photographe rate and price */
 /************************************/
-.full-screen-media {
+.full-screen-media,
+#contact_modal {
   position: fixed;
   z-index: 10;
   left: 0;
@@ -329,8 +390,10 @@ small {
   overflow: auto;
   /* background: #036a65; */
   background-color: rgba(196, 196, 196, 0.4);
+  /* background-color: #312e2e; */
+  /* background: #821010; */
   transition: 0.3s ease-in-out;
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
 }
@@ -371,14 +434,12 @@ small {
 }
 
 .fa-chevron-right {
-  background: palegreen;
+  background: transparent;
 }
 .fa-chevron-left {
-  background: palegreen;
   height: 100%;
 }
 .media-close-icon {
-  background: yellow;
   height: 100%;
 }
 
@@ -529,6 +590,18 @@ select option {
 /* MEDIA QUERIES */
 /************************************/
 
+@media screen and (max-width: 1452px) {
+  .photographer-medias {
+    width: 330px;
+  }
+}
+
+@media screen and (max-width: 1380px) {
+  .photographer-medias {
+    width: 300px;
+  }
+}
+
 @media screen and (max-width: 1250px) {
   /* Photographer all medias displayed */
   .photographer-header-element {
@@ -543,9 +616,8 @@ select option {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .photograph-work-content li:nth-child(2n) {
-    justify-self: end;
-    align-items: center;
+  .photographer-medias {
+    width: 350px;
   }
 
   /* Photographer profil card */
@@ -569,6 +641,17 @@ select option {
   }
 }
 
+@media screen and (max-width: 900px) {
+  .contact-script,
+  .photographer-contact-name {
+    font-size: 50px;
+  }
+
+  .modal header img {
+    padding-bottom: 0px;
+  }
+}
+
 @media screen and (max-width: 880px) {
   .photograph-work-content {
     grid-template-columns: 1fr;
@@ -582,17 +665,10 @@ select option {
     font-size: 25px;
     text-align: center;
   }
+  .modal {
+    width: 550px;
+  }
 }
-
-/* @media screen and (max-width: 750px) {
-  .photograph-work-content {
-    grid-template-columns: 1fr;
-  }
-  .photograph-description .description {
-    font-size: 25px;
-    text-align: center;
-  }
-} */
 
 /* PHOTOGRAPHER PROFIL CARD */
 @media screen and (max-width: 450px) {
@@ -612,7 +688,6 @@ select option {
 
   .photograph-description .description {
     font-size: 20px;
-    /* text-align: center; */
   }
 
   .photograph-header img {
@@ -643,4 +718,21 @@ select option {
   .photograph-work-content-img-modal {
     width: 350px;
   }
+}
+
+.sort-by {
+  background-color: #901c1c;
+  border: none;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  color: #ffffff;
+  font-size: 18px;
+  height: 60px;
+  padding: 0 5px;
+  width: 150px;
+}
+
+#sort {
+  margin-top: 20px;
+  margin-bottom: 60px;
 }
