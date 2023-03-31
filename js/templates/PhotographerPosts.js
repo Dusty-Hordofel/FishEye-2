@@ -41,7 +41,7 @@ class PhotographerPosts {
               }
                ${video ? "muted" : ""}
                 class="photographer-medias" 
-               id=${
+               class=${
                  image ? "photograph-content-img" : "photograph-content-video"
                } key="${id}"  ${image ? "/" : ""}> ${image ? "" : "</video>"}
                </a>

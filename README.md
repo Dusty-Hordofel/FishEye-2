@@ -641,7 +641,7 @@ class PhotographerProfile {
 
     this.element.innerHTML = `
       <div class="photograph-description">
-      <h1 tabindex="0">${name}</h1>
+      <h1 tabindex="0" class="photographer-name">${name}</h1>
       <p class="location" aria-label="ville et pays de ${name}" tabindex="0">${city}, ${country}</p>
       <p class="description" tabindex="0" aria-label="citation du photographe ${name}">${tagline}</p>
     </div>
