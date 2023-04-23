@@ -188,20 +188,20 @@ button {
   padding: 35px;
   margin: auto;
   transition: all 2s ease;
-  background: #036a65;
+  /* background: #036a65; */
   /* padding-bottom: 60px; */
 }
 
 .modal header {
   /* justify-content: space-between; */
   width: 100%;
-  background: #312e2e;
+  /* background: #312e2e; */
   padding: 0px;
 }
 
 .modal header img {
   cursor: pointer;
-  background: yellow;
+  /* background: yellow; */
   /* background: #821010; */
   padding-bottom: 100px;
   transition: all 2s ease;
