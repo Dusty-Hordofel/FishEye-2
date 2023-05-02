@@ -28,61 +28,29 @@
   <body>
     <!-- Header  -->
     <header
-      role="banner"
       tabindex="0"
       aria-label="En-tête de la page d'acceuil du photographe"
       class="photographer-header-element section-center"
     >
-      <a href="index.html" target="blank" title="Lien vers la page d'acceuil">
-        <img
-          src="assets/images/logo.png"
-          class="logo"
-          alt="logo du site web"
-          tabindex="0"
-        />
+      <a
+        href="index.html"
+        target="blank"
+        title="Lien vers la page d'acceuil"
+        tabindex="0"
+      >
+        <img src="assets/images/logo.png" class="logo" alt="logo du site web" />
       </a>
     </header>
 
     <!--  Contenu principal de la page d'accueil  du photographe -->
     <main
       id="main"
-      role="main"
       aria-label="Contenu principal de la page d'accueil du photographe"
       class="section-center main-section"
     >
-      <section class="photograph-header" tabindex="0"></section>
+      <div class="photograph-header" tabindex="0"></div>
 
       <!-- Filtering Dropdown menu -->
-      <!-- <div
-        class="photograph-categories"
-        aria-label="filtrer les photos par categories"
-        tabindex="0"
-      >
-        <div class="category-title">
-          <div class="filter-category" tabindex="0">Trier par</div>
-        </div>
-        <div class="photograph-work-filter">
-          <div class="dropdown">
-            <div
-              class="select"
-              role="listbox"
-              aria-expanded="false"
-              aria-level="Bouton pour ouvrir le menu déroulant"
-              role="button"
-              tabindex="0"
-            >
-              <div class="selected">Popularité</div>
-              <div class="caret"></div>
-            </div>
-            <div class="menu">
-              <li class="active" id="popularite" tabindex="0">Popularité</li>
-              <li id="date" tabindex="0">Date</li>
-              <li id="titre" tabindex="0">Titre</li>
-            </div>
-          </div>
-        </div>
-      </div> -->
-      <!-- Filtering  menu 2-->
       <div id="sort" tabindex="0">
         <label class="trier-texte" for="select-trier" tabindex="0"
           >Trier par
@@ -105,7 +73,6 @@
       <section
         class="photograph-work"
         tabindex="0"
-        role="region"
         aria-label="Publications faites par le photographe"
       >
         <div class="photographer-all-medias photograph-work-content"></div>
@@ -156,10 +123,10 @@
             <span class="contact-script">Contactez-moi </span>
             <span class="photographer-contact-name"></span>
           </h2>
+          <!-- ontouchstart="closeModal()" -->
           <img
             src="assets/icons/close.svg"
             onclick="closeModal()"
-            ontouchstart="closeModal()"
             alt="Bouton pour fermer la boîte de dialogue"
             tabindex="0"
             class="contact-close-button"
@@ -170,10 +137,8 @@
           name="reserve"
           action="photographer.html"
           method="dialog"
-          role="form"
           id="form"
           class="form"
-          focus
         >
           <div class="formData" role="group">
             <label for="first">Prénom</label>
@@ -240,6 +205,7 @@
             type="submit"
             class="contact_button_send"
             aria-label="Bouton pour envoyer le message"
+            tabindex="0"
           >
             Envoyer
           </button>

@@ -42,21 +42,3 @@ const formatPrice = (price) => {
     .replace(/,00/, "");
   return formattedPrice;
 };
-
-//get item in the local storage
-// const getStorageItem = (item) => {
-//   let storageItem = localStorage.getItem(item);
-
-//   if (storageItem && storageItem !== undefined) {
-//     storageItem = JSON.parse(localStorage.getItem(item));
-//   } else {
-//     storageItem = [];
-//   }
-//   return storageItem;
-// };
-
-// set item in the local storage
-// const setStorageItem = (name, item) => {
-//   //name of my key and the item
-//   localStorage.setItem(name, JSON.stringify(item)); //La méthode JSON.stringify() convertit une valeur JavaScript en chaîne JSON. we can only store data as a string in localStorage
-// };
