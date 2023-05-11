@@ -9,10 +9,10 @@ class Homepage {
     //Retieve data from api
     const photographersData = await this.photographersApi.getPhotographers();
 
-    //Create an instance of PhotographerFactory to create an instance of Photographer
+    //Create an instance of Photographer to create an instance of Photographer
     //transformer le tableau de données en tableau de class en utilisant le PhotographerFactory
     let Photographers = photographersData.map(
-      (photographer) => new PhotographerFactory(photographer)
+      (photographer) => new Photographer(photographer)
     );
 
     //Create ann instance of PhotographerCard to display photographers

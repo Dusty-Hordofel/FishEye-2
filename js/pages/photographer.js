@@ -40,13 +40,9 @@ class PhotographerPage {
   async photographerProfile() {
     const photographerDetails = await this.photographer();
 
-    //Create an instance of PhotographersFactory to create an instance of Photographer
-    //transformer le tableau de données en tableau de class en utilisant le PhotographersFactory
-    const Photographer = new PhotographerProfileFactory(photographerDetails);
-
     //Create an instance of PhotographerProfile to display photographer's profile
     let PhotographerProfileTemplate = new PhotographerProfile(
-      Photographer,
+      photographerDetails,
       this.$photographerSection
     );
     PhotographerProfileTemplate.createPhotographerProfile();
