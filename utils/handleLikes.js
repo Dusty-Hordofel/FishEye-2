@@ -3,7 +3,7 @@
 function handleLikes(id, type) {
   let nbLike = document.getElementById("like-" + id).innerHTML;
 
-  nbLike = parseInt(nbLike);
+  nbLike = parseInt(nbLike); //convert string to number
   let nbLikeTotal = getElement(
     ".photographer-rate-and-price-likes-number"
   ).innerHTML;
