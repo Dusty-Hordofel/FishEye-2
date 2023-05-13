@@ -70,14 +70,16 @@ class PhotographerPage {
     const photographerDetails = await this.photographer();
     const photographerMediasDetails = await this.media();
 
-    photographerMediasDetails.map((media) => {
-      const Template = new PhotographerPosts(media, photographerDetails);
-      return this.$photographerWorkSection.append(
-        Template.createPhotographerPost()
-      );
-      // return (this.$photographerWorkSection.innerHTML +=
-      //   Template.createPhotographerPost());
-    });
+    photographerMediasDetails
+      .sort((a, b) => b.likes - a.likes)
+      .map((media) => {
+        const Template = new PhotographerPosts(media, photographerDetails);
+        return this.$photographerWorkSection.append(
+          Template.createPhotographerPost()
+        );
+        // return (this.$photographerWorkSection.innerHTML +=
+        //   Template.createPhotographerPost());
+      });
   }
 }
 
