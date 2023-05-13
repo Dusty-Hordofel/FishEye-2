@@ -82,7 +82,7 @@ function openLightbox(index, title) {
   }
 
   if (mediaFormat === "image") {
-    console.log(mediaSrc);
+    // console.log(mediaSrc);
     getElement(
       ".medias"
     ).innerHTML = `<img alt='${title}' class='photograph-work-content-img-modal photograph-work-img' src="${mediaSrc}"/>`;
