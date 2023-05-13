@@ -41,23 +41,32 @@ function openLightbox(index, title) {
 
   // manage the display of arrows in lightbox
   if (idMedia == 1) {
-    console.log((getElement(".fa-chevron-left").style.display = "none"));
-    console.log((getElement(".fa-chevron-right").style.display = "block"));
+    // console.log((getElement(".fa-chevron-left").style.display = "none"));
+    // console.log((getElement(".fa-chevron-right").style.display = "block"));
     //Change the index of the arrows
     getElement(".fa-chevron-left").setAttribute("onclick", "");
     getElement(".fa-chevron-right").setAttribute(
       "onclick",
       "rightArrow(" + (idMedia + 1) + ")"
     );
+
+    getElement(".fa-chevron-left").setAttribute(
+      "onclick",
+      "leftArrow(" + allMedias + ")"
+    );
   } else if (idMedia === allMedias) {
     getElement(".fa-chevron-left").style.display = "block";
-    getElement(".fa-chevron-right").style.display = "none";
+    // getElement(".fa-chevron-right").style.display = "none";
     //Change the index of the arrows
     getElement(".fa-chevron-left").setAttribute(
       "onclick",
       "leftArrow(" + (idMedia - 1) + ")"
     );
-    getElement(".fa-chevron-right").setAttribute("onclick", "");
+    // getElement(".fa-chevron-right").setAttribute("onclick", "");
+    getElement(".fa-chevron-right").setAttribute(
+      "onclick",
+      "rightArrow(" + (idMedia - (idMedia - 1)) + ")"
+    );
   } else {
     getElement(".fa-chevron-left").style.display = "block";
     getElement(".fa-chevron-right").style.display = "block";
